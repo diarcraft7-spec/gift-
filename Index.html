@@ -1,1 +1,297 @@
 
+<!DOCTYPE html>
+<html lang="ku">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>دیاری کاک دیار بۆ سازگار خان</title>
+    
+    <style>
+        /* پاشبنەمای ڕەشی قووڵ بۆ درەوشانەوەی باشتر */
+        body {
+            background-color: #0d0e12;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* سندوقی سەرەکی کارتەکە - بە دیزاینی نێۆنی پەمەیی بۆ ئەوەی تێکەڵ بە ڕەشی نەبێت */
+        .card-box {
+            background-color: #161822; 
+            border: 3px solid #ff69b4;
+            border-radius: 25px;
+            padding: 35px 25px;
+            text-align: center;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 0 25px rgba(255, 105, 180, 0.6); /* درەوشانەوەی پەمەیی */
+            z-index: 99999; /* هێنانی بۆ پێشەوەی پێشەوە */
+            direction: rtl;
+            position: relative;
+            box-sizing: border-box;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ئەنیمەیشنی گۆڕینی قۆناغەکان بە شێوازی کێشانی سێ ڕەهەندی */
+        .step {
+            position: absolute;
+            top: 25px; left: 20px; right: 20px; bottom: 25px;
+            opacity: 0;
+            transform: scale(0.4) rotate(-10deg);
+            pointer-events: none;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .step.active {
+            position: relative;
+            top: 0; left: 0; right: 0; bottom: 0;
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+            pointer-events: auto;
+        }
+
+        h2 {
+            color: #ff69b4;
+            font-size: 24px;
+            margin: 0 0 12px 0;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(255,105,180,0.5);
+        }
+
+        p {
+            color: #f1f5f9;
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 0 0 20px 0;
+        }
+
+        /* دوگمەی پەمەیی مۆدێرن */
+        .btn {
+            background: linear-gradient(135deg, #ff69b4 0%, #ffb6c1 100%);
+            color: #ffffff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .btn:hover, .btn:active {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(255, 105, 180, 0.7);
+        }
+
+        /* وێنەکانی Hello Kitty */
+        .kitty-img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 10px rgba(255,105,180,0.5));
+        }
+
+        /* ئەنیمەیشنی جووڵەی نەرمی سەر و خوار */
+        .bounce {
+            animation: kittyBounce 2s infinite ease-in-out;
+        }
+
+        @keyframes kittyBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* بارانی گەردیلەکان */
+        .falling-particle {
+            position: absolute;
+            top: -50px;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            0% { top: -50px; transform: translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { top: 100vh; transform: translateX(100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* چوارچێوەی تایبەت بۆ ساڵی ٢٠٠٤ */
+        .birth-date {
+            font-size: 22px;
+            color: #ffffff;
+            background: rgba(255, 105, 180, 0.25);
+            padding: 6px 18px;
+            border-radius: 12px;
+            border: 2px dashed #ff69b4;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-box">
+        
+        <div class="step active" id="step1">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>سڵاو سازگار خان</h2>
+            <p>سەرسامییەکی گەورە و پڕ لە نامەی شیرین لەلایەن کاکە دیارەوە بۆ تۆ ئامادەیە...</p>
+            <button class="btn" onclick="nextStep(2)">کردنەوەی دەروازە</button>
+        </div>
+
+        <div class="step" id="step2">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>نامەی یەکەم 🌸</h2>
+            <p>سازگارە تاقانەکەم، خوشک گەورەترین دیاری خوایە بۆ سەر زەوی، هەمیشە شانازیت پێوە دەکەم.</p>
+            <button class="btn" onclick="nextStep(3)">لاپەڕەی دواتر</button>
+        </div>
+
+        <div class="step" id="step3">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>گەشتێکی تایبەت</h2>
+            <p>ئەمڕۆ لاپەڕەیەکی نوێ لە تەمەنت هەڵدەدرێتەوە، لاپەڕەیەک کە پڕە لە هیوا و ئاواتی نوێ.</p>
+            <button class="btn" onclick="nextStep(4)">بەرەو مێژووە مەزنەکە</button>
+        </div>
+
+        <div class="step" id="step4">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>مێژوویەکی زێڕین ✨</h2>
+            <p>لەم ڕۆژە پیرۆزەدا جیهان بە هاتنی تۆ ڕووناک بووەوە:</p>
+            <div class="birth-date">27 / 6 / 2004</div>
+            <button class="btn" onclick="nextStep(5)">بەردەوام بە</button>
+        </div>
+
+        <div class="step" id="step5">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>کاتی کێکەکەیە! 🎂</h2>
+            <p>دیار پێت دەڵێت: پێش ئەوەی مۆمەکە بکوژێنیتەوە، قووڵترین و جوانترین ئاواتی دڵت بخوازە.</p>
+            <button class="btn" onclick="nextStep(6); startConfetti();">کوژاندنەوەی مۆم</button>
+        </div>
+
+        <div class="step" id="step6">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>پیرۆزبایی قووڵ</h2>
+            <p>ڕۆژی لەدایکبوونت هەزار جار پیرۆز بێت هاودەمی تەمەنم سازگار گیان، هەمیشە سەرفراز بیت.</p>
+            <button class="btn" onclick="nextStep(7)">لاپەڕەی حەوتم</button>
+        </div>
+
+        <div class="step" id="step7">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>شایەنی باشترینیتی</h2>
+            <p>هیوادارم ئەم ساڵە نوێیەی تەمەنت، پڕ بێت لە تەندروستیەکی باش، گەیشتن بە لووتکەی سەرکەوتن.</p>
+            <button class="btn" onclick="nextStep(8)">بڕۆ پێشەوە</button>
+        </div>
+
+        <div class="step" id="step8">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>بۆ جوانترین کچ</h2>
+            <p>مرۆڤەکان بە ساڵەکانی تەمەنیان نا، بەو دڵە سپی و میهرەبانییەی هەیانە دەپێورێن، تۆش شاهانەی میهرەبانیت.</p>
+            <button class="btn" onclick="nextStep(9)">لاپەڕەی دواتر</button>
+        </div>
+
+        <div class="step" id="step9">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>سوپاسگوزاری برات</h2>
+            <p>سوپاس بۆ بوونت لە ژیانمدا سازگار خان، سوپاس کە هەمیشە خوشکێکی دڵسۆز و میهرەبان بوویت لەگەڵم.</p>
+            <button class="btn" onclick="nextStep(10)">لاپەڕەی دەیەم</button>
+        </div>
+
+        <div class="step" id="step10">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>هیوای هەمیشەیی</h2>
+            <p>تەمەنت درێژ بێت و هەمیشە لە ناو خۆشی و بەختەوەرییەکی بێبڕانەوەدا بتبینم خوشکە ناوازەکەم.</p>
+            <button class="btn" onclick="nextStep(11)">هێشتا بڕاوە نییە!</button>
+        </div>
+
+        <div class="step" id="step11">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>بۆ هەمیشە پاڵپشتتم</h2>
+            <p>لەم جیهانە گەورەیەدا، دڵنیابە هەمیشە وەک چیا لە پشتت دەبم و ڕێگاکەت بۆ ڕۆشن دەکەمەوە.</p>
+            <button class="btn" onclick="nextStep(12)">بەردەوام بە</button>
+        </div>
+
+        <div class="step" id="step12">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>سەرکەوتنی گەورە</h2>
+            <p>با خوێندن، کار و هەموو خەونەکانt لەم ساڵەدا ڕەنگ بدەنەوە و بگەیت بەو شوێنەی ئاواتت پێخواستووە.</p>
+            <button class="btn" onclick="nextStep(13)">لاپەڕەی دواتر</button>
+        </div>
+
+        <div class="step" id="step13">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>خەندەی سەر لێوان</h2>
+            <p>هیچ شتێک لەم ژیانەدا هێندەی بینینی خەندەی سەر لێوانی خوشکەکەم دڵخۆشم ناکات، هەمیشە پێبکەنە.</p>
+            <button class="btn" onclick="nextStep(14)">بەرەو کۆتایی</button>
+        </div>
+
+        <div class="step" id="step14">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>ڕووناکی دڵم</h2>
+            <p>تۆ نەک هەر خوشک، بەڵکو باشترین دیاری خودایت بۆ ماڵەکەمان، هەمیشە بمێنیت بۆم.</p>
+            <button class="btn" onclick="nextStep(15)">بینینی پەیامی شاهانە</button>
+        </div>
+
+        <div class="step" id="step15">
+            <img src="https://img.icons8.com/color/144/hello-kitty.png" class="kitty-img bounce" alt="Hello Kitty">
+            <h2>بۆ هەمیشە شانازیت پێوە دەکەم</h2>
+            <p>مرۆڤەکان بە تەمەنیان نا، بەو شوێنەوارە جوانانەی لە دڵی دەوروبەریان جێی دەهێڵن دەناسرێنەوە، و تۆ یەکێکیت لەو جوانترینانە.</p>
+            <p style="font-size: 18px; color: #ff69b4; font-weight: bold; margin: 0; text-shadow: 0 0 10px rgba(255,105,180,0.6);">له‌ برات دیارەوە بۆ تۆی ئازیز خوشکم سازگار 🌹</p>
+        </div>
+
+    </div>
+
+    <script>
+        const particles = ['🌸', '💖', '✨', '🤍', '🎀', '🎈'];
+
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step' + stepNumber).classList.add('active');
+        }
+
+        function startConfetti() {
+            let rainInterval = setInterval(createParticle, 60);
+            setTimeout(() => { clearInterval(rainInterval); }, 20000);
+        }
+
+        function createParticle() {
+            const div = document.createElement('div');
+            div.classList.add('falling-particle');
+            div.innerText = particles[Math.floor(Math.random() * particles.length)];
+            div.style.left = Math.random() * 100 + 'vw';
+            
+            let size = Math.random() * 20 + 15; 
+            div.style.fontSize = size + 'px';
+            
+            div.style.animationDuration = Math.random() * 2 + 2 + 's'; 
+            document.body.appendChild(div);
+            
+            setTimeout(() => { div.remove(); }, 4000);
+        }
+    </script>
+
+</body>
+</html>
